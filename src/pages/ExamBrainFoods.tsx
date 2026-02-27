@@ -61,16 +61,16 @@ export default function ExamBrainFoods() {
               <p className="text-gov-blue-dark font-medium animate-pulse">Generating AI Brain Food Image...</p>
             </div>
           ) : imageUrl ? (
-            <img 
-              src={"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQE..."} 
-              alt="Exam Time Brain Foods" 
+            <img
+              src={imageUrl}
+              alt="Exam Time Brain Foods"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
           ) : (
-            <img 
-              src="https://images.unsplash.com/photo-1453825012366-3738046fc6c7?q=80&w=2000&auto=format&fit=crop" 
-              alt="Exam Time Brain Foods Fallback" 
+            <img
+              src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=2000&auto=format&fit=crop"
+              alt="Exam Time Brain Foods"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />

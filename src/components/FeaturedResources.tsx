@@ -1,59 +1,99 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import {
+  ArrowRight,
+  UtensilsCrossed,
+  MessageCircle,
+  Brain,
+  GraduationCap,
+  Home,
+  Heart,
+  Calendar,
+  Info,
+  Mail,
+  LayoutDashboard,
+} from 'lucide-react';
+import { allResources, FALLBACK_IMAGE } from '../config/resources';
 
-const resources = [
-  {
-    title: "SSE Hostel Mess Menu",
-    description: "Explore the newly introduced nutritious options available at our hostel mess.",
-    image: "https://images.unsplash.com/photo-1543352634-99a5d50ae78e?q=80&w=800&auto=format&fit=crop",
-    link: "/hostel"
-  },
-  {
-    title: "Student Health Center",
-    description: "Book an appointment with our campus nutritionist or medical staff for personalized advice.",
-    image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=800&auto=format&fit=crop",
-    link: "/health-center"
-  },
-  {
-    title: "Fitness Club Workshops",
-    description: "Join our weekly workshops on combining diet with exercise for optimal student health.",
-    image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop",
-    link: "/events"
-  }
-];
+const iconMap = {
+  UtensilsCrossed,
+  MessageCircle,
+  Brain,
+  GraduationCap,
+  Home,
+  Heart,
+  Calendar,
+  Info,
+  Mail,
+  LayoutDashboard,
+};
+
+const categoryColors: Record<string, string> = {
+  Nutrition: 'border-l-primary bg-orange-50/30',
+  Campus: 'border-l-gov-blue bg-blue-50/30',
+  Info: 'border-l-[#138808] bg-green-50/30',
+  Main: 'border-l-gov-blue-dark bg-gov-gray-light/50',
+};
 
 export default function FeaturedResources() {
   return (
-    <section className="py-12 bg-gray-50">
+    <section id="resources" className="py-14 lg:py-16 scroll-mt-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold text-gov-blue-dark mb-6 border-l-4 border-india-saffron pl-3">
-          Campus Initiatives & Resources
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {resources.map((resource) => (
-            <div key={resource.title} className="flex flex-col sm:flex-row bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow rounded-sm overflow-hidden">
-              <div className="sm:w-1/3 h-48 sm:h-auto overflow-hidden">
-                <img 
-                  src={resource.image} 
-                  alt={resource.title} 
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <div className="p-5 sm:w-2/3 flex flex-col justify-between">
-                <div>
-                  <Link to={resource.link} className="text-lg font-bold text-gov-blue-dark mb-2 hover:text-gov-blue cursor-pointer block">
-                    {resource.title}
-                  </Link>
-                  <p className="text-sm text-gray-600 mb-4">{resource.description}</p>
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+          <div>
+            <h2 className="text-2xl lg:text-3xl font-bold text-gov-blue-dark border-l-4 border-primary pl-4">
+              All 10 Resources
+            </h2>
+            <p className="text-gray-600 mt-2 max-w-xl">
+              Everything you need for nutrition and wellness—diet plans, campus support, and more.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {allResources.map((resource) => {
+            const Icon = iconMap[resource.icon as keyof typeof iconMap] ?? UtensilsCrossed;
+            const cardClass = categoryColors[resource.category] ?? 'border-l-gray-400 bg-gray-50/50';
+            return (
+              <Link
+                key={resource.id}
+                to={resource.link}
+                className={`group flex flex-col glass-card rounded-2xl overflow-hidden border-l-4 hover:shadow-xl hover:-translate-y-1 hover:border-primary/40 transition-all duration-300 ${cardClass}`}
+              >
+                <div className="flex flex-col sm:flex-row flex-1 min-h-0">
+                  <div className="relative h-40 sm:h-auto sm:w-36 shrink-0 overflow-hidden bg-gray-200">
+                    <img
+                      src={resource.image}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (target.src !== FALLBACK_IMAGE) target.src = FALLBACK_IMAGE;
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent sm:from-transparent sm:to-transparent" />
+                    <div className="absolute bottom-2 left-2 sm:bottom-2 sm:left-2 p-2 rounded-xl glass border border-white/40">
+                      <Icon className="w-6 h-6 text-primary" />
+                    </div>
+                  </div>
+                  <div className="p-4 flex-1 flex flex-col">
+                    <span className="text-xs font-semibold text-primary uppercase tracking-wider">
+                      {resource.category}
+                    </span>
+                    <h3 className="font-bold text-gov-blue-dark mt-1 group-hover:text-primary transition-colors line-clamp-1">
+                      {resource.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 mt-2 line-clamp-3 flex-1">
+                      {resource.description}
+                    </p>
+                    <span className="mt-3 inline-flex items-center gap-1 text-primary font-semibold text-sm group-hover:underline">
+                      Open <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
                 </div>
-                <Link to={resource.link} className="text-india-saffron font-bold text-sm hover:underline flex items-center gap-1">
-                  Read More <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>
